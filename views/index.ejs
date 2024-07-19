@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <h1 style="color: rgb(46, 46, 2);">Pokemon Team</h1>
+    <p style="color: rgb(46, 46, 2); font-size: 2rem;">Team Count: <%= pokemons.length %>/6</p>
+    <form action="/add" method="post">
+        <input type="text" name="pokemon" autofocus placeholder="<%= locals.error ? error :  'Enter Pokemon name'%>">
+        <button type="submit">Add</button>
+    </form>
+    <div class="container">
+        <% pokemons.forEach(function(pokemon) { %>
+            <div class="Pokemon">
+                <h2><%= pokemon.name %></h2>
+                <% if (!pokemon.shiny) { %>
+                <img class="pokeimg" src="<%= pokemon.img %>" alt="">
+                <% } else { %>
+                <img class="pokeimg" src="<%= pokemon.shiny_img %>" alt="">
+                <% } %>
+                <form action="/toggle-shiny/<%= pokemon.id %>" method="POST">
+                    <button type="submit"><%= pokemon.shiny ? '★' : '☆' %></button>
+                </form>
+                <div class="type-container">
+                <h2><%= pokemon.type1 %></h2>
+                <img class="types" src="/images/<%= pokemon.type1 %>.png" alt="type1">
+                </div>
+                <% if (pokemon.type2) { %>
+                    <div class="type-container">
+                    <h2><%= pokemon.type2 %></h2>
+                    <img class="types" src="/images/<%= pokemon.type2 %>.png" alt="type2">
+                </div>
+                <% } %>
+                <form action="/delete/<%= pokemon.id %>" method="POST">
+                    <button type="submit">❌</button>
+                </form>
+            </div>
+        <% }); %>
+    </div>
+    
+</body>
+</html>
